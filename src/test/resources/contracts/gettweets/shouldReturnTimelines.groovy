@@ -29,7 +29,7 @@ Contract.make {
                 [
                         tweetId  : '00000000-0000-0000-0000-000000000002',
                         text     : 'tweet3',
-                        username : 'user',
+                        username : 'foo',
                         createdAt: $(client('2017-04-11T00:00:00Z'), server(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z')))
                 ],
                 [
