@@ -5,7 +5,7 @@ import org.springframework.cloud.contract.spec.Contract;
 Contract.make {
     request {
         method 'GET'
-        url '/v1/timelines'
+        url '/v1/tweets'
         headers {
             header('Authorization', 'Basic Zm9vOnBhc3N3b3Jk')
         }
