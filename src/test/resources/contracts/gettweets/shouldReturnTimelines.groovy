@@ -7,7 +7,7 @@ Contract.make {
         method 'GET'
         url '/v1/timelines'
         headers {
-            header('Authorization', 'Basic dXNlcjpwYXNzd29yZA==')
+            header('Authorization', 'Basic Zm9vOnBhc3N3b3Jk')
         }
     }
 
@@ -17,25 +17,25 @@ Contract.make {
                 [
                         tweetId  : '00000000-0000-0000-0000-000000000000',
                         text     : 'tweet1',
-                        username : 'user',
+                        fooname : 'foo',
                         createdAt: $(client('2017-04-11T00:00:00Z'), server(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z')))
                 ],
                 [
                         tweetId  : '00000000-0000-0000-0000-000000000001',
                         text     : 'tweet2',
-                        username : 'user',
+                        fooname : 'foo',
                         createdAt: $(client('2017-04-11T00:00:00Z'), server(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z')))
                 ],
                 [
                         tweetId  : '00000000-0000-0000-0000-000000000002',
                         text     : 'tweet3',
-                        username : 'foo',
+                        fooname : 'foo',
                         createdAt: $(client('2017-04-11T00:00:00Z'), server(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z')))
                 ],
                 [
                         tweetId  : '00000000-0000-0000-0000-000000000003',
                         text     : 'tweet4',
-                        username : 'user',
+                        fooname : 'foo',
                         createdAt: $(client('2017-04-11T00:00:00Z'), server(regex('[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z')))
                 ]
         ])
