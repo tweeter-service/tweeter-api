@@ -9,36 +9,32 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 @SpringBootApplication
 public class TweeterApiApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TweeterApiApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TweeterApiApplication.class, args);
+    }
 
-	@Configuration
-	@EnableResourceServer
-	static class ResourceServerConfig extends ResourceServerConfigurerAdapter {
-		@Override
-		public void configure(HttpSecurity http) throws Exception {
-			http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-					.and().authorizeRequests().antMatchers(HttpMethod.GET, "/v1/**")
-					.access("#oauth2.hasScope('tweet.read')")
-					.antMatchers(HttpMethod.POST, "/v1/**")
-					.access("#oauth2.hasScope('tweet.write')")
-					.antMatchers(HttpMethod.PUT, "/v1/**")
-					.access("#oauth2.hasScope('tweet.write')")
-					.antMatchers(HttpMethod.DELETE, "/v1/**")
-					.access("#oauth2.hasScope('tweet.write')")
-					.antMatchers(HttpMethod.PATCH, "/v1/**")
-					.access("#oauth2.hasScope('tweet.write')");
-		}
+    @Configuration
+    @EnableResourceServer
+    static class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+        @Override
+        public void configure(HttpSecurity http) throws Exception {
+            http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and() //
+                    .authorizeRequests() //
+                    .antMatchers(HttpMethod.OPTIONS).permitAll() //
+                    .anyRequest().authenticated() //
+                    .and() //
+                    .csrf().disable()
+            ;
+        }
 
-		@Override
-		public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-			resources.resourceId("api://default");
-		}
-	}
+        @Override
+        public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+            resources.resourceId("api://default");
+        }
+    }
 }

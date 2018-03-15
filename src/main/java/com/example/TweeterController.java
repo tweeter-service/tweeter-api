@@ -1,45 +1,46 @@
 package com.example;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.web.bind.annotation.*;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
-
 @RestController
 @CrossOrigin
 public class TweeterController {
 	private final JdbcTemplate jdbcTemplate;
+	private final User user;
 
-	public TweeterController(JdbcTemplate jdbcTemplate) {
+	public TweeterController(JdbcTemplate jdbcTemplate, User user) {
 		this.jdbcTemplate = jdbcTemplate;
+		this.user = user;
 	}
 
 	@GetMapping("v1/timelines")
-	List<Tweet> getTimelines() {
+	public List<Tweet> getTimelines() {
 		return jdbcTemplate.query(
 				"SELECT tweet_id, text, username, created_at FROM tweets ORDER BY created_at DESC",
 				tweetRowMapper);
 	}
 
 	@GetMapping("v1/tweets")
-	List<Tweet> tweets(Authentication authentication) {
-		String username = authentication.getName();
+	public List<Tweet> tweets() {
+		String username = this.user.getUsername();
 		return jdbcTemplate.query(
 				"SELECT tweet_id, text, username, created_at FROM tweets WHERE username=? ORDER BY created_at DESC",
 				tweetRowMapper, username);
 	}
 
 	@PostMapping("v1/tweets")
-	Tweet postTweets(@RequestBody Tweet tweet, Authentication authentication) {
+	public Tweet postTweets(@RequestBody Tweet tweet) {
 		tweet.tweetId = UUID.randomUUID();
 		tweet.createdAt = new Date();
-		tweet.username = authentication.getName();
+		tweet.username = this.user.getUsername();
 		jdbcTemplate.update(
 				"INSERT INTO tweets(tweet_id, text, username, created_at) VALUES (?, ?, ?, ?)",
 				tweet.tweetId.toString(), tweet.text, tweet.username, tweet.createdAt);
